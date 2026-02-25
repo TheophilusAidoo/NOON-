@@ -310,7 +310,6 @@ export default function SellerProductsPage() {
           {wholesaleProducts.length === 0 ? (
             <div className="py-8 text-center">
               <p className="text-gray-500 text-sm">No wholesale products</p>
-              <p className="text-xs text-gray-400 mt-0.5">Admin adds them in Admin → Products</p>
             </div>
           ) : (
             <div className="divide-y divide-gray-100">
