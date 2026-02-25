@@ -127,9 +127,9 @@ export default function Footer() {
             <ul className="space-y-2.5 text-sm">
               <li><Link href="/products" className="hover:text-[#e61502] transition">All Products</Link></li>
               <li><Link href="/sellers" className="hover:text-[#e61502] transition">Our Sellers</Link></li>
-              <li><Link href="/products?flash=true" className="hover:text-[#e61502] transition">Flash Deals</Link></li>
-              <li><Link href="/products" className="hover:text-[#e61502] transition">New Arrivals</Link></li>
-              <li><Link href="/seller" className="hover:text-[#e61502] transition">Sell on Rakuten</Link></li>
+              <li><Link href="/flash-deals" className="hover:text-[#e61502] transition">Flash Deals</Link></li>
+              <li><Link href="/new-arrivals" className="hover:text-[#e61502] transition">New Arrivals</Link></li>
+              <li><Link href="/sell" className="hover:text-[#e61502] transition">Sell on Rakuten</Link></li>
             </ul>
           </div>
 

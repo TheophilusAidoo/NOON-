@@ -33,6 +33,8 @@ function ProductsContent() {
     flash: searchParams.get('flash') === 'true',
     minPrice: '',
     maxPrice: '',
+    sort: searchParams.get('sort') || '',
+    order: searchParams.get('order') || 'desc',
     page: 1,
   });
 
@@ -48,6 +50,8 @@ function ProductsContent() {
       category: searchParams.get('category') || '',
       brand: searchParams.get('brand') || '',
       flash: searchParams.get('flash') === 'true',
+      sort: searchParams.get('sort') || '',
+      order: searchParams.get('order') || 'desc',
       page: 1,
     }));
   }, [searchParams]);
@@ -60,6 +64,10 @@ function ProductsContent() {
     if (filters.flash) params.flash = true;
     if (filters.minPrice) params.minPrice = filters.minPrice;
     if (filters.maxPrice) params.maxPrice = filters.maxPrice;
+    if (filters.sort) {
+      params.sort = filters.sort;
+      params.order = filters.order;
+    }
     dispatch(fetchProducts(params));
   }, [filters, dispatch]);
 
@@ -76,6 +84,8 @@ function ProductsContent() {
       flash: false,
       minPrice: '',
       maxPrice: '',
+      sort: '',
+      order: 'desc',
       page: 1,
     });
   };

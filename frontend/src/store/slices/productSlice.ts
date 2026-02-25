@@ -56,6 +56,8 @@ export const fetchProducts = createAsyncThunk(
       flash?: boolean;
       minPrice?: number;
       maxPrice?: number;
+      sort?: string;
+      order?: string;
     } = {},
     { rejectWithValue }
   ) => {
