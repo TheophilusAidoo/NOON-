@@ -135,7 +135,7 @@ export default function RegisterPage() {
               </div>
               {role === 'SELLER' && (
                 <p className="mt-1.5 text-xs text-amber-600">
-                  Requires admin approval. Logo and banner are required.
+                  Logo and banner are required.
                 </p>
               )}
             </div>
