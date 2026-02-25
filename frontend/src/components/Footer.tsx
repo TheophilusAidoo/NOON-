@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import toast from 'react-hot-toast';
-import { HiMail, HiPhone, HiLocationMarker, HiHeart } from 'react-icons/hi';
+import { HiMail, HiPhone, HiLocationMarker } from 'react-icons/hi';
 import { api } from '@/lib/axios';
 
 const DEFAULT_FOOTER = {
@@ -159,7 +159,7 @@ export default function Footer() {
         {/* Bottom bar */}
         <div className="mt-12 pt-8 border-t border-gray-200 flex flex-col sm:flex-row items-center justify-between gap-4">
           <p className="text-sm text-gray-500 flex items-center gap-1">
-            © {new Date().getFullYear()} Rakuten. Made with <HiHeart className="w-4 h-4 text-[#e61502] inline" /> for shoppers.
+            © {new Date().getFullYear()} Rakuten. Made for shoppers.
           </p>
           <div className="flex gap-6 text-sm">
             <Link href="/terms" className="text-gray-500 hover:text-[#e61502] transition">Terms</Link>
