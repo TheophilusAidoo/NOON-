@@ -5,8 +5,7 @@
   "scripts": {
     "dev": "npm run kill-port && sleep 2 && npx nodemon src/index.js",
     "start": "node src/index.js",
-    "build": "npx prisma generate",
-    "postinstall": "npx prisma generate",
+    "build": "echo 'No build step for Node backend'",
     "create-admin": "npx prisma db seed",
     "seed-products": "node prisma/seed-products.js",
     "fix-admin": "node scripts/fix-admin.js",
@@ -15,6 +14,7 @@
   },
   "dependencies": {
     "@prisma/client": "^5.22.0",
+    "@vercel/blob": "^2.3.0",
     "bcryptjs": "^2.4.3",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",

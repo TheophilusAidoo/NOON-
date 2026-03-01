@@ -13,6 +13,7 @@ const nextConfig = {
       { protocol: 'https', hostname: '*.imgur.com', pathname: '/**' },
       { protocol: 'https', hostname: '*.tenor.com', pathname: '/**' },
       { protocol: 'https', hostname: 'media.tenor.com', pathname: '/**' },
+      { protocol: 'https', hostname: '*.public.blob.vercel-storage.com', pathname: '/**' },
     ],
   },
   // Proxy API requests to backend - avoids CORS and Network Error when backend runs on :5000
