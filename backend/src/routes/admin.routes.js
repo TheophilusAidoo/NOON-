@@ -9,6 +9,8 @@ import * as settings from '../controllers/settings.controller.js';
 import * as chat from '../controllers/chat.controller.js';
 import * as manualPayment from '../controllers/manual-payment.controller.js';
 import * as newsletter from '../controllers/newsletter.controller.js';
+import { validate } from '../validators/index.js';
+import { adminUpdateUserSchema } from '../validators/admin.validator.js';
 
 const router = Router();
 
@@ -16,6 +18,9 @@ router.use(authenticate);
 router.use(requireAdmin);
 
 router.get('/dashboard', admin.getDashboardStats);
+router.get('/users', admin.getAdminUsers);
+router.put('/users/:userId', validate(adminUpdateUserSchema), admin.updateAdminUser);
+router.delete('/users/:userId', admin.deleteAdminUser);
 router.get('/sellers', admin.getAllSellers);
 router.get('/sellers/pending', admin.getPendingSellers);
 router.put('/sellers/:userId/approve', admin.approveSeller);

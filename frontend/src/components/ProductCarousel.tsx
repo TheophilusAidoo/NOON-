@@ -43,16 +43,16 @@ export default function ProductCarousel({ title, seeAllHref, products, loading, 
   return (
     <section className="mb-10">
       {header}
-      <div className="relative">
+      <div className="relative -mx-3 sm:mx-0">
         <div
           ref={scrollRef}
-          className="flex gap-4 overflow-x-auto scroll-smooth pb-2 -mx-1 items-stretch [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]"
+          className="flex snap-x snap-mandatory gap-3 overflow-x-auto scroll-smooth px-3 pb-2 [-ms-overflow-style:none] [scrollbar-width:none] items-stretch sm:gap-4 sm:px-0 [&::-webkit-scrollbar]:hidden"
         >
           {loading ? (
             Array(6)
               .fill(0)
               .map((_, i) => (
-                <div key={i} className="flex-shrink-0 w-44 sm:w-52">
+                <div key={i} className="w-[min(42vw,11rem)] shrink-0 snap-start sm:w-44 md:w-52">
                   <ProductSkeleton />
                 </div>
               ))
@@ -66,10 +66,10 @@ export default function ProductCarousel({ title, seeAllHref, products, loading, 
           <button
             type="button"
             onClick={scrollRight}
-            className="absolute right-0 top-1/2 -translate-y-1/2 -translate-x-2 w-10 h-10 rounded-full bg-white shadow-lg border border-gray-200 flex items-center justify-center text-gray-600 hover:bg-gray-50 hover:text-amber-600 transition z-10"
+            className="absolute right-0 top-1/2 z-10 hidden h-10 w-10 -translate-y-1/2 -translate-x-2 items-center justify-center rounded-full border border-gray-200 bg-white text-gray-600 shadow-lg transition hover:bg-gray-50 hover:text-amber-600 sm:flex"
             aria-label="Scroll right"
           >
-            <HiChevronRight className="w-6 h-6" />
+            <HiChevronRight className="h-6 w-6" />
           </button>
         )}
       </div>

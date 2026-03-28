@@ -27,17 +27,19 @@ export default function AccountLayout({
   ];
 
   return (
-    <div className="max-w-6xl mx-auto px-4 py-6">
-      <h1 className="text-2xl font-bold mb-6">My Account</h1>
-      <div className="flex flex-col md:flex-row gap-6">
-        <aside className="w-full md:w-56 shrink-0">
-          <nav className="bg-white rounded-lg shadow p-2 space-y-1">
+    <div className="mx-auto max-w-6xl px-3 py-4 sm:px-4 sm:py-6 md:px-6">
+      <h1 className="mb-4 text-xl font-bold sm:mb-6 sm:text-2xl">My Account</h1>
+      <div className="flex flex-col gap-3 sm:gap-6 md:flex-row md:items-start">
+        <aside className="w-full shrink-0 md:w-56">
+          <nav className="flex gap-4 overflow-x-auto scroll-smooth pb-2 -mx-1 px-1 md:flex-col md:gap-1 md:overflow-visible md:rounded-lg md:bg-white md:p-2 md:shadow md:pb-0">
             {links.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
-                className={`block px-4 py-3 rounded-lg ${
-                  pathname === link.href ? 'bg-amber-500 text-white' : 'hover:bg-gray-100'
+                className={`shrink-0 whitespace-nowrap rounded-full px-4 py-2 text-sm font-medium transition md:rounded-lg md:px-4 md:py-3 ${
+                  pathname === link.href
+                    ? 'bg-amber-500 text-white'
+                    : 'bg-white text-gray-700 shadow-sm ring-1 ring-gray-200 hover:bg-gray-50 md:bg-transparent md:shadow-none md:ring-0'
                 }`}
               >
                 {link.label}
@@ -45,7 +47,7 @@ export default function AccountLayout({
             ))}
           </nav>
         </aside>
-        <main className="flex-1 min-w-0">{children}</main>
+        <main className="min-w-0 flex-1">{children}</main>
       </div>
     </div>
   );

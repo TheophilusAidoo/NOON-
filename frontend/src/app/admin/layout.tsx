@@ -4,6 +4,7 @@ import { useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter, usePathname } from 'next/navigation';
 import { useAppSelector } from '@/store/hooks';
+import DashboardShell from '@/components/DashboardShell';
 import {
   HiChartBar,
   HiUserGroup,
@@ -19,10 +20,12 @@ import {
   HiCreditCard,
   HiHome,
   HiMail,
+  HiUser,
 } from 'react-icons/hi';
 
 const linkIcons: Record<string, React.ComponentType<{ className?: string }>> = {
   '/admin': HiChartBar,
+  '/admin/users': HiUser,
   '/admin/sellers': HiUserGroup,
   '/admin/deposits': HiCash,
   '/admin/withdrawals': HiCreditCard,
@@ -41,7 +44,10 @@ const linkIcons: Record<string, React.ComponentType<{ className?: string }>> = {
 const NAV_GROUPS = [
   {
     label: 'Overview',
-    links: [{ href: '/admin', label: 'Dashboard' }],
+    links: [
+      { href: '/admin', label: 'Dashboard' },
+      { href: '/admin/users', label: 'Users' },
+    ],
   },
   {
     label: 'Commerce',
@@ -114,65 +120,63 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     );
   }
 
-  return (
-    <div className="flex min-h-screen bg-slate-50">
-      <aside className="w-72 shrink-0 flex flex-col bg-white border-r border-slate-200">
-        {/* Header */}
-        <div className="h-16 flex items-center gap-3 px-6 border-b border-slate-100">
-          <div className="w-9 h-9 rounded-lg bg-gradient-to-br from-amber-500 to-orange-600 flex items-center justify-center shadow-sm">
-            <HiChartBar className="w-5 h-5 text-white" />
-          </div>
-          <div>
-            <h1 className="font-bold text-slate-900 text-sm">Admin Panel</h1>
-            <p className="text-xs text-slate-500">Rakuten</p>
-          </div>
+  const sidebar = (
+    <>
+      <div className="flex h-16 shrink-0 items-center gap-3 border-b border-slate-100 px-4 sm:px-6">
+        <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-gradient-to-br from-amber-500 to-orange-600 shadow-sm">
+          <HiChartBar className="h-5 w-5 text-white" />
         </div>
+        <div className="min-w-0">
+          <h1 className="text-sm font-bold text-slate-900">Admin Panel</h1>
+          <p className="text-xs text-slate-500">Rakuten</p>
+        </div>
+      </div>
 
-        {/* Nav */}
-        <nav className="flex-1 overflow-y-auto py-4 px-4">
-          {NAV_GROUPS.map((group) => (
-            <div key={group.label} className="mb-6 last:mb-0">
-              <p className="px-3 mb-2 text-xs font-semibold text-slate-400 uppercase tracking-wider">
-                {group.label}
-              </p>
-              <div className="space-y-0.5">
-                {group.links.map((link) => {
-                  const Icon = linkIcons[link.href];
-                  const isActive = pathname === link.href;
-                  return (
-                    <Link
-                      key={link.href}
-                      href={link.href}
-                      className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all ${
-                        isActive
-                          ? 'bg-amber-50 text-amber-700 ring-1 ring-amber-200/60'
-                          : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900'
-                      }`}
-                    >
-                      {Icon && <Icon className="w-5 h-5 shrink-0 opacity-80" />}
-                      {link.label}
-                    </Link>
-                  );
-                })}
-              </div>
+      <nav className="flex-1 overflow-y-auto px-3 py-4 sm:px-4">
+        {NAV_GROUPS.map((group) => (
+          <div key={group.label} className="mb-6 last:mb-0">
+            <p className="mb-2 px-3 text-xs font-semibold uppercase tracking-wider text-slate-400">
+              {group.label}
+            </p>
+            <div className="space-y-0.5">
+              {group.links.map((link) => {
+                const Icon = linkIcons[link.href];
+                const isActive = pathname === link.href;
+                return (
+                  <Link
+                    key={link.href}
+                    href={link.href}
+                    className={`flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-all ${
+                      isActive
+                        ? 'bg-amber-50 text-amber-700 ring-1 ring-amber-200/60'
+                        : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900'
+                    }`}
+                  >
+                    {Icon && <Icon className="h-5 w-5 shrink-0 opacity-80" />}
+                    <span className="min-w-0 truncate">{link.label}</span>
+                  </Link>
+                );
+              })}
             </div>
-          ))}
-        </nav>
+          </div>
+        ))}
+      </nav>
 
-        {/* Footer */}
-        <div className="p-4 border-t border-slate-100">
-          <Link
-            href="/"
-            className="flex items-center gap-2 px-3 py-2 rounded-lg text-sm text-slate-500 hover:bg-slate-50 hover:text-slate-700 transition"
-          >
-            <HiHome className="w-4 h-4" />
-            Back to Store
-          </Link>
-        </div>
-      </aside>
-      <main className="flex-1 overflow-auto min-w-0">
-        <div className="p-6 lg:p-8 w-full">{children}</div>
-      </main>
-    </div>
+      <div className="shrink-0 border-t border-slate-100 p-4">
+        <Link
+          href="/"
+          className="flex items-center gap-2 rounded-lg px-3 py-2 text-sm text-slate-500 transition hover:bg-slate-50 hover:text-slate-700"
+        >
+          <HiHome className="h-4 w-4 shrink-0" />
+          Back to Store
+        </Link>
+      </div>
+    </>
+  );
+
+  return (
+    <DashboardShell menuTitle="Admin" sidebar={sidebar}>
+      {children}
+    </DashboardShell>
   );
 }

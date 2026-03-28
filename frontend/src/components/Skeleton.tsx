@@ -13,6 +13,6 @@ export function ProductSkeleton() {
 
 export function BannerSkeleton() {
   return (
-    <div className="h-64 md:h-80 bg-gray-200 rounded-lg animate-pulse w-full" />
+    <div className="aspect-[16/11] w-full animate-pulse rounded-lg bg-gray-200 min-[480px]:aspect-[2.35/1] md:aspect-[3/1] md:max-h-[22rem]" />
   );
 }

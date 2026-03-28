@@ -1,6 +1,6 @@
 # Deploy Rakuten (NOON)
 
-**Workflow:** Deploy to Vercel first (for testing) → then move to cPanel (final hosting).
+**Workflow:** Deploy to Vercel first (test/preview) → then move to cPanel (your final hosting).
 
 ---
 

@@ -104,6 +104,117 @@ export const getDashboardStats = async (req, res, next) => {
   }
 };
 
+/** List registered users (admin). Optional ?role=CUSTOMER|SELLER|ADMIN */
+export const getAdminUsers = async (req, res, next) => {
+  try {
+    const { role } = req.query;
+    const validRoles = ['CUSTOMER', 'SELLER', 'ADMIN'];
+    const where =
+      typeof role === 'string' && validRoles.includes(role) ? { role } : {};
+
+    const users = await prisma.user.findMany({
+      where,
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        role: true,
+        isVerified: true,
+        isApproved: true,
+        createdAt: true,
+      },
+      orderBy: { createdAt: 'desc' },
+    });
+
+    res.json({ success: true, data: users });
+  } catch (err) {
+    next(err);
+  }
+};
+
+export const updateAdminUser = async (req, res, next) => {
+  try {
+    const { userId } = req.params;
+    const { name, email, isVerified } = req.body;
+
+    const user = await prisma.user.findUnique({ where: { id: userId } });
+    if (!user) throw new AppError('User not found', 404);
+
+    const normalizedEmail = email.trim().toLowerCase();
+    if (normalizedEmail !== user.email) {
+      const dup = await prisma.user.findFirst({
+        where: { email: normalizedEmail, NOT: { id: userId } },
+      });
+      if (dup) throw new AppError('Email already in use', 400);
+    }
+
+    const data = {
+      name: name.trim(),
+      email: normalizedEmail,
+    };
+    if (isVerified !== undefined && user.role !== 'SELLER') {
+      data.isVerified = Boolean(isVerified);
+    }
+
+    const updated = await prisma.user.update({
+      where: { id: userId },
+      data,
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        role: true,
+        isVerified: true,
+        isApproved: true,
+        createdAt: true,
+      },
+    });
+
+    res.json({ success: true, data: updated });
+  } catch (err) {
+    next(err);
+  }
+};
+
+export const deleteAdminUser = async (req, res, next) => {
+  try {
+    const { userId } = req.params;
+    if (userId === req.user.id) {
+      throw new AppError('You cannot delete your own account', 400);
+    }
+
+    const user = await prisma.user.findUnique({ where: { id: userId } });
+    if (!user) throw new AppError('User not found', 404);
+
+    if (user.role === 'ADMIN') {
+      const adminCount = await prisma.user.count({ where: { role: 'ADMIN' } });
+      if (adminCount <= 1) {
+        throw new AppError('Cannot delete the last admin account', 400);
+      }
+    }
+
+    if (user.role === 'SELLER') {
+      const orderItemCount = await prisma.orderItem.count({ where: { sellerId: userId } });
+      if (orderItemCount > 0) {
+        throw new AppError('Cannot delete: seller has order history. Suspend the seller instead.', 400);
+      }
+    }
+
+    if (user.role === 'CUSTOMER') {
+      await prisma.$transaction(async (tx) => {
+        await tx.order.deleteMany({ where: { userId } });
+        await tx.user.delete({ where: { id: userId } });
+      });
+      return res.json({ success: true, message: 'User and their orders were deleted' });
+    }
+
+    await prisma.user.delete({ where: { id: userId } });
+    res.json({ success: true, message: 'User deleted' });
+  } catch (err) {
+    next(err);
+  }
+};
+
 export const getPendingSellers = async (req, res, next) => {
   try {
     const sellers = await prisma.user.findMany({

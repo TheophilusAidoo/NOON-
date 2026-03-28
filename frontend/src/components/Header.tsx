@@ -39,122 +39,122 @@ export default function Header() {
 
   return (
     <header className="sticky top-0 z-50 bg-white shadow-md">
-      {/* Top bar */}
-      <div className="bg-amber-500 text-black text-center py-1 text-sm font-medium">
+      <div className="bg-amber-500 py-1.5 text-center text-xs font-medium text-black sm:text-sm">
         Free shipping on orders over {formatPrice(50)}
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 py-3">
-        <div className="flex items-center gap-6">
-          {/* Logo */}
-          <Link href="/" className="text-2xl font-bold text-amber-600 shrink-0">
-            Rakuten
-          </Link>
+      <div className="mx-auto max-w-7xl px-3 py-3 sm:px-4">
+        <div className="flex flex-col gap-3 md:flex-row md:items-center md:gap-4 lg:gap-6">
+          <div className="flex items-center justify-between gap-3">
+            <Link href="/" className="shrink-0 text-xl font-bold text-amber-600 sm:text-2xl">
+              Rakuten
+            </Link>
+            <div className="flex flex-wrap items-center justify-end gap-x-2 gap-y-1 sm:gap-x-3 md:gap-4">
+              {user ? (
+                <>
+                  <Link href="/account" className="text-sm text-gray-700 hover:text-amber-600">
+                    Account
+                  </Link>
+                  {user.role === 'ADMIN' && (
+                    <Link href="/admin" className="text-sm text-gray-700 hover:text-amber-600">
+                      Admin
+                    </Link>
+                  )}
+                  {user.role === 'SELLER' && user.isApproved && (
+                    <Link href="/seller" className="text-sm text-gray-700 hover:text-amber-600">
+                      Seller
+                    </Link>
+                  )}
+                  <Link href="/cart" className="relative text-xl leading-none" aria-label="Shopping cart">
+                    <span>🛒</span>
+                    {itemCount > 0 && (
+                      <span className="absolute -top-2 -right-2 flex h-5 w-5 items-center justify-center rounded-full bg-amber-500 text-xs text-white">
+                        {itemCount}
+                      </span>
+                    )}
+                  </Link>
+                  <button
+                    type="button"
+                    onClick={handleLogout}
+                    className="text-sm text-gray-700 hover:text-amber-600"
+                  >
+                    Logout
+                  </button>
+                </>
+              ) : (
+                <>
+                  <Link href="/login" className="text-sm text-gray-700 hover:text-amber-600">
+                    Login
+                  </Link>
+                  <Link href="/register" className="text-sm text-gray-700 hover:text-amber-600">
+                    Register
+                  </Link>
+                  <Link href="/cart" className="text-xl leading-none" aria-label="Shopping cart">
+                    🛒
+                  </Link>
+                </>
+              )}
+            </div>
+          </div>
 
-          {/* Search - center, large */}
-          <form onSubmit={handleSearch} className="flex-1 max-w-2xl mx-4">
+          <form onSubmit={handleSearch} className="w-full flex-1 md:mx-auto md:max-w-2xl">
             <div className="relative">
               <input
                 type="search"
-                placeholder="Search for products, brands..."
+                placeholder="Search products, brands…"
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
-                className="w-full px-4 py-2.5 pr-12 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-400 focus:border-transparent"
+                className="w-full rounded-lg border border-gray-300 py-2.5 pl-3 pr-24 text-sm focus:border-transparent focus:ring-2 focus:ring-amber-400 sm:text-base"
               />
               <button
                 type="submit"
-                className="absolute right-2 top-1/2 -translate-y-1/2 bg-amber-500 text-white px-4 py-1 rounded hover:bg-amber-600"
+                className="absolute right-1 top-1/2 -translate-y-1/2 rounded bg-amber-500 px-3 py-1.5 text-sm text-white hover:bg-amber-600 sm:px-4"
               >
                 Search
               </button>
             </div>
           </form>
-
-          {/* Right actions */}
-          <div className="flex items-center gap-4 shrink-0">
-            {user ? (
-              <>
-                <Link href="/account" className="text-gray-700 hover:text-amber-600">
-                  Account
-                </Link>
-                {user.role === 'ADMIN' && (
-                  <Link href="/admin" className="text-gray-700 hover:text-amber-600">
-                    Admin
-                  </Link>
-                )}
-                {user.role === 'SELLER' && user.isApproved && (
-                  <Link href="/seller" className="text-gray-700 hover:text-amber-600">
-                    Seller
-                  </Link>
-                )}
-                <Link href="/cart" className="relative">
-                  <span className="text-xl">🛒</span>
-                  {itemCount > 0 && (
-                    <span className="absolute -top-2 -right-2 bg-amber-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
-                      {itemCount}
-                    </span>
-                  )}
-                </Link>
-                <button onClick={handleLogout} className="text-gray-700 hover:text-amber-600">
-                  Logout
-                </button>
-              </>
-            ) : (
-              <>
-                <Link href="/login" className="text-gray-700 hover:text-amber-600">
-                  Login
-                </Link>
-                <Link href="/register" className="text-gray-700 hover:text-amber-600">
-                  Register
-                </Link>
-                <Link href="/cart" className="text-xl">🛒</Link>
-              </>
-            )}
-          </div>
         </div>
 
-        {/* All Categories bar */}
         <nav
-          className="relative mt-3 pt-3 border-t border-gray-200"
+          className="relative mt-3 border-t border-gray-200 pt-3"
           onMouseEnter={() => setShowMega(true)}
           onMouseLeave={() => setShowMega(false)}
         >
-          <div className="flex items-center gap-8">
+          <div className="-mx-1 flex items-center gap-4 overflow-x-auto pb-1 sm:gap-8">
             <Link
               href="/products"
-              className={`flex items-center gap-2 font-semibold transition ${
+              className={`flex shrink-0 items-center gap-2 font-semibold transition ${
                 showMega ? 'text-amber-600' : 'text-gray-800 hover:text-amber-600'
               }`}
             >
               <span className="text-xl leading-none">☰</span>
-              <span>All Categories</span>
+              <span className="whitespace-nowrap">All Categories</span>
               <span className={`inline-block transform transition-transform ${showMega ? 'rotate-180' : ''}`}>▾</span>
             </Link>
-            <Link href="/products" className="text-sm font-medium text-gray-600 hover:text-amber-600 transition">
+            <Link href="/products" className="shrink-0 whitespace-nowrap text-sm font-medium text-gray-600 hover:text-amber-600">
               Shop All
             </Link>
-            <Link href="/sellers" className="text-sm font-medium text-gray-600 hover:text-amber-600 transition">
+            <Link href="/sellers" className="shrink-0 whitespace-nowrap text-sm font-medium text-gray-600 hover:text-amber-600">
               Sellers
             </Link>
           </div>
           {showMega && (
-            <div className="absolute left-0 top-full mt-1.5 min-w-[200px] bg-white/95 backdrop-blur-sm shadow-lg border border-gray-100 rounded-lg py-2 z-[100]">
+            <div className="absolute left-0 top-full z-[100] mt-1.5 min-w-[min(100vw-2rem,280px)] max-w-[calc(100vw-2rem)] rounded-lg border border-gray-100 bg-white/95 py-2 shadow-lg backdrop-blur-sm">
               {categories.length > 0 ? (
-                <div className="max-h-[70vh] overflow-y-auto">
+                <div className="max-h-[min(70vh,24rem)] overflow-y-auto">
                   {categories.slice(0, 20).map((cat) => (
                     <Link
                       key={cat.id}
                       href={`/products?category=${cat.id}`}
-                      className="block px-5 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-gray-900 transition"
+                      className="block px-4 py-2.5 text-sm text-gray-700 transition hover:bg-gray-50 hover:text-gray-900"
                     >
                       {cat.name}
                     </Link>
                   ))}
                 </div>
               ) : (
-                <div className="px-5 py-6 text-center text-sm text-gray-500">
-                  No categories yet
-                </div>
+                <div className="px-5 py-6 text-center text-sm text-gray-500">No categories yet</div>
               )}
             </div>
           )}

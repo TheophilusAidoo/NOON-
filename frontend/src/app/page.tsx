@@ -66,24 +66,28 @@ export default function HomePage() {
   }, [banners.length]);
 
   return (
-    <div className="max-w-7xl mx-auto px-4 py-6">
+    <div className="mx-auto w-full max-w-7xl px-3 py-4 sm:px-4 sm:py-6 md:px-6">
       {loadError && (
-        <div className="mb-4 p-4 bg-amber-50 border border-amber-200 rounded-lg flex items-center justify-between gap-4">
+        <div className="mb-4 flex flex-col gap-3 rounded-lg border border-amber-200 bg-amber-50 p-4 sm:flex-row sm:items-center sm:justify-between">
           <p className="text-sm text-amber-800">Could not load homepage data. Is the backend running?</p>
           <button
-            onClick={() => { setLoading(true); loadHomepageData(); }}
-            className="px-4 py-2 bg-amber-500 text-white text-sm font-medium rounded-lg hover:bg-amber-600 transition"
+            type="button"
+            onClick={() => {
+              setLoading(true);
+              loadHomepageData();
+            }}
+            className="shrink-0 rounded-lg bg-amber-500 px-4 py-2 text-sm font-medium text-white transition hover:bg-amber-600"
           >
             Retry
           </button>
         </div>
       )}
       {/* Hero banner slider - online images */}
-      <section className="mb-8 animate-fade-in">
+      <section className="mb-6 animate-fade-in sm:mb-8">
         {loading ? (
           <BannerSkeleton />
         ) : banners.length > 0 ? (
-          <div className="relative h-64 md:h-80 rounded-lg overflow-hidden bg-gray-200">
+          <div className="relative w-full overflow-hidden rounded-lg bg-gray-200 aspect-[16/11] min-[480px]:aspect-[2.35/1] md:aspect-[3/1] md:max-h-[22rem]">
             {banners.map((b, i) => (
               <Link
                 key={b.id}
@@ -101,21 +105,23 @@ export default function HomePage() {
               </Link>
             ))}
             {banners.length > 1 && (
-              <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2 z-20">
+              <div className="absolute bottom-2 left-1/2 z-20 flex -translate-x-1/2 gap-1.5 sm:bottom-4 sm:gap-2">
                 {banners.map((_, i) => (
                   <button
+                    type="button"
                     key={i}
                     onClick={() => setBannerIndex(i)}
-                    className={`w-2 h-2 rounded-full ${
+                    className={`h-2 w-2 rounded-full touch-manipulation sm:h-2.5 sm:w-2.5 ${
                       i === bannerIndex ? 'bg-white' : 'bg-white/50'
                     }`}
+                    aria-label={`Go to banner ${i + 1}`}
                   />
                 ))}
               </div>
             )}
           </div>
         ) : (
-          <div className="h-64 md:h-80 rounded-lg bg-gray-200 flex items-center justify-center overflow-hidden">
+          <div className="relative flex aspect-[16/11] w-full items-center justify-center overflow-hidden rounded-lg bg-gray-200 min-[480px]:aspect-[2.35/1] md:aspect-[3/1] md:max-h-[22rem]">
             <img
               src="https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?w=1200"
               alt="Banner"
@@ -133,7 +139,7 @@ export default function HomePage() {
           icon={<MdFlashOn className="w-6 h-6" />}
           middleContent={<FlashCountdown />}
         />
-        <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4 items-stretch">
+        <div className="grid grid-cols-1 min-[380px]:grid-cols-2 gap-2 sm:gap-3 md:grid-cols-3 md:gap-4 lg:grid-cols-4 xl:grid-cols-5 items-stretch">
           {flashDealsLoading ? (
             Array(15)
               .fill(0)
@@ -163,7 +169,7 @@ export default function HomePage() {
           title="Featured Products"
           seeAllHref="/products"
         />
-        <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4 items-stretch">
+        <div className="grid grid-cols-1 min-[380px]:grid-cols-2 gap-2 sm:gap-3 md:grid-cols-3 md:gap-4 lg:grid-cols-4 xl:grid-cols-5 items-stretch">
           {featuredLoading ? (
             Array(15)
               .fill(0)

@@ -44,39 +44,39 @@ export default function ConditionalHeader() {
     const c = accentColors[accent];
 
     return (
-      <header className="bg-white border-b border-slate-200 shadow-sm">
-        <div className="h-14 px-4 sm:px-6 flex items-center justify-between max-w-[1920px] mx-auto">
+      <header className="shrink-0 border-b border-slate-200 bg-white shadow-sm">
+        <div className="mx-auto flex h-14 max-w-[1920px] items-center justify-between gap-2 px-3 sm:px-6">
           <Link
             href={isAdmin ? '/admin' : '/seller'}
-            className={`flex items-center gap-2 font-bold text-lg ${c.brand} ${c.brandHover} transition`}
+            className={`flex min-w-0 items-center gap-1.5 text-base font-bold sm:gap-2 sm:text-lg ${c.brand} ${c.brandHover} transition`}
           >
-            <span>Rakuten</span>
-            <span className="text-slate-500 font-medium text-base">
+            <span className="truncate">Rakuten</span>
+            <span className="font-medium text-slate-500 text-xs sm:text-base">
               {isAdmin ? 'Admin' : 'Seller'}
             </span>
           </Link>
 
-          <div className="flex items-center gap-1 sm:gap-2">
+          <div className="flex shrink-0 items-center gap-0.5 sm:gap-2">
             <Link
               href="/"
-              className={`flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm ${c.link} transition`}
+              className={`flex items-center gap-1 rounded-lg px-2 py-2 text-sm sm:gap-1.5 sm:px-3 ${c.link} transition`}
+              title="View store"
             >
-              <HiHome className="w-4 h-4" />
-              <span>View Store</span>
+              <HiHome className="h-4 w-4 shrink-0" />
+              <span className="hidden sm:inline">View Store</span>
             </Link>
-            <div className="w-px h-5 bg-slate-200" aria-hidden />
-            <div className="flex items-center gap-2 px-3 py-2">
-              <HiUser className="w-4 h-4 text-slate-400" />
-              <span className="text-sm text-slate-600 truncate max-w-[120px] sm:max-w-[180px]">
-                {user?.name}
-              </span>
+            <div className="hidden h-5 w-px bg-slate-200 sm:block" aria-hidden />
+            <div className="hidden max-w-[100px] items-center gap-1.5 px-1 sm:flex sm:max-w-[160px] md:max-w-[200px]">
+              <HiUser className="h-4 w-4 shrink-0 text-slate-400" />
+              <span className="truncate text-sm text-slate-600">{user?.name}</span>
             </div>
             <button
+              type="button"
               onClick={handleLogout}
-              className={`flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm ${c.link} transition`}
+              className={`flex items-center gap-1 rounded-lg px-2 py-2 text-sm sm:gap-1.5 sm:px-3 ${c.link} transition`}
             >
-              <HiLogout className="w-4 h-4" />
-              <span>Logout</span>
+              <HiLogout className="h-4 w-4 shrink-0" />
+              <span className="hidden sm:inline">Logout</span>
             </button>
           </div>
         </div>

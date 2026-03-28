@@ -57,7 +57,7 @@ export default function CategoryBrandGrid({ categories, brands }: Props) {
           No categories or brands yet. Add them in the admin panel.
         </div>
       ) : (
-      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
+      <div className="grid grid-cols-2 gap-2 min-[400px]:gap-3 sm:grid-cols-3 sm:gap-4 md:grid-cols-4 lg:grid-cols-6">
         {allCards.map((card, i) => (
           <Link
             key={`${card.type}-${card.id}`}
@@ -68,8 +68,8 @@ export default function CategoryBrandGrid({ categories, brands }: Props) {
               opacity-0 animate-fade-in-up"
             style={{ animationDelay: `${i * 50}ms`, animationFillMode: 'forwards' }}
           >
-            <div className="pt-6 pb-4 px-4 flex flex-col items-center">
-              <div className="w-28 h-28 sm:w-32 sm:h-32 rounded-full bg-[#fce4ec] overflow-hidden flex items-center justify-center shrink-0 relative group-hover:ring-4 group-hover:ring-amber-200/50 transition-all duration-300">
+            <div className="flex flex-col items-center px-2 pb-3 pt-4 sm:px-4 sm:pb-4 sm:pt-6">
+              <div className="relative flex h-20 w-20 shrink-0 items-center justify-center overflow-hidden rounded-full bg-[#fce4ec] transition-all duration-300 group-hover:ring-4 group-hover:ring-amber-200/50 min-[400px]:h-24 min-[400px]:w-24 sm:h-32 sm:w-32">
                 {card.image ? (
                   <img
                     src={card.image}
@@ -84,18 +84,21 @@ export default function CategoryBrandGrid({ categories, brands }: Props) {
                   />
                 ) : null}
                 <span
-                  className={`text-2xl font-bold brand-fallback ${card.image ? 'hidden' : ''}`}
+                  className={`brand-fallback text-lg font-bold min-[400px]:text-2xl ${card.image ? 'hidden' : ''}`}
                   style={{ color: '#c2185b' }}
                 >
                   {card.name.charAt(0)}
                 </span>
               </div>
-              <div className="w-full flex justify-center -mt-4 relative z-10">
-                <span className="inline-block px-4 py-1.5 rounded-full text-white text-xs font-bold transition-transform duration-300 group-hover:scale-110 hover:opacity-90" style={{ backgroundColor: '#e61502' }}>
+              <div className="relative z-10 -mt-3 flex w-full justify-center sm:-mt-4">
+                <span
+                  className="inline-block max-w-full truncate rounded-full px-2 py-1 text-[10px] font-bold text-white transition-transform duration-300 group-hover:scale-110 hover:opacity-90 min-[400px]:px-3 min-[400px]:text-xs sm:px-4 sm:py-1.5"
+                  style={{ backgroundColor: '#e61502' }}
+                >
                   {card.promoLabel}
                 </span>
               </div>
-              <p className="mt-3 text-sm font-medium text-gray-900 text-center line-clamp-2 group-hover:text-amber-600 transition-colors">
+              <p className="mt-2 line-clamp-2 text-center text-xs font-medium text-gray-900 transition-colors group-hover:text-amber-600 min-[400px]:mt-3 sm:text-sm">
                 {card.name}
               </p>
             </div>

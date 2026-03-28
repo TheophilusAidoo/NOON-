@@ -190,10 +190,10 @@ export default function AdminDashboard() {
       {/* Charts */}
       <section>
         <h2 className="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-4">Charts</h2>
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-5">
-            <h3 className="font-semibold text-gray-900 mb-4">Orders & Revenue (Last 6 Months)</h3>
-            <div className="h-64">
+        <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
+          <div className="min-w-0 overflow-x-auto rounded-xl border border-gray-200 bg-white p-4 shadow-sm sm:p-5">
+            <h3 className="mb-4 font-semibold text-gray-900">Orders & Revenue (Last 6 Months)</h3>
+            <div className="h-56 sm:h-64">
               {(!stats.ordersByMonth || stats.ordersByMonth.length === 0) ? (
                 <div className="h-full flex items-center justify-center text-gray-400 text-sm">No order data yet</div>
               ) : (
@@ -215,9 +215,9 @@ export default function AdminDashboard() {
               )}
             </div>
           </div>
-          <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-5">
-            <h3 className="font-semibold text-gray-900 mb-4">Users by Role</h3>
-            <div className="h-64">
+          <div className="min-w-0 overflow-x-auto rounded-xl border border-gray-200 bg-white p-4 shadow-sm sm:p-5">
+            <h3 className="mb-4 font-semibold text-gray-900">Users by Role</h3>
+            <div className="h-56 sm:h-64">
               {(!stats.usersByRole || stats.usersByRole.every((r) => r.value === 0)) ? (
                 <div className="h-full flex items-center justify-center text-gray-400 text-sm">No users yet</div>
               ) : (
@@ -243,9 +243,9 @@ export default function AdminDashboard() {
               )}
             </div>
           </div>
-          <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-5 lg:col-span-2">
-            <h3 className="font-semibold text-gray-900 mb-4">Products by Category</h3>
-            <div className="h-64">
+          <div className="min-w-0 overflow-x-auto rounded-xl border border-gray-200 bg-white p-4 shadow-sm sm:p-5 lg:col-span-2">
+            <h3 className="mb-4 font-semibold text-gray-900">Products by Category</h3>
+            <div className="h-56 sm:h-64">
               {(!stats.productsByCategory || stats.productsByCategory.length === 0) ? (
                 <div className="h-full flex items-center justify-center text-gray-400 text-sm">No products in categories yet</div>
               ) : (
@@ -270,8 +270,8 @@ export default function AdminDashboard() {
 
       {/* Revenue infographic */}
       <section>
-        <div className="bg-gradient-to-r from-green-500 to-emerald-600 rounded-2xl p-6 text-white shadow-lg">
-          <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+        <div className="rounded-2xl bg-gradient-to-r from-green-500 to-emerald-600 p-4 text-white shadow-lg sm:p-6">
+          <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
             <div className="flex items-center gap-4">
               <div className="w-16 h-16 rounded-2xl bg-white/20 flex items-center justify-center">
                 <HiTrendingUp className="w-8 h-8" />
@@ -302,8 +302,8 @@ export default function AdminDashboard() {
       {/* Recent Orders */}
       <section>
         <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
-          <div className="px-6 py-4 border-b border-gray-100 flex items-center gap-2">
-            <HiClock className="w-5 h-5 text-amber-500" />
+          <div className="flex items-center gap-2 border-b border-gray-100 px-4 py-3 sm:px-6 sm:py-4">
+            <HiClock className="h-5 w-5 shrink-0 text-amber-500" />
             <h2 className="font-semibold text-gray-900">Recent Orders</h2>
           </div>
           <div className="divide-y divide-gray-100">
@@ -311,22 +311,23 @@ export default function AdminDashboard() {
               stats.recentOrders.slice(0, 8).map((o) => (
                 <div
                   key={o.id}
-                  className="flex items-center justify-between px-6 py-4 hover:bg-gray-50/50 transition"
+                  className="flex flex-col gap-2 px-4 py-4 transition hover:bg-gray-50/50 sm:flex-row sm:items-center sm:justify-between sm:px-6"
                 >
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-lg bg-amber-100 flex items-center justify-center">
-                      <HiShoppingCart className="w-5 h-5 text-amber-600" />
+                  <div className="flex min-w-0 items-center gap-3">
+                    <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-amber-100">
+                      <HiShoppingCart className="h-5 w-5 text-amber-600" />
                     </div>
-                    <div>
+                    <div className="min-w-0">
                       <p className="font-medium text-gray-900">
-                        {o.user?.name ?? 'Guest'} <span className="text-gray-400 font-normal">· #{o.id?.slice(-8)}</span>
+                        {o.user?.name ?? 'Guest'}{' '}
+                        <span className="font-normal text-gray-400">· #{o.id?.slice(-8)}</span>
                       </p>
                       <p className="text-xs text-gray-500">
                         {new Date(o.createdAt).toLocaleDateString()} · {o.orderStatus ?? 'Processing'}
                       </p>
                     </div>
                   </div>
-                  <div className="text-right">
+                  <div className="shrink-0 text-left sm:text-right">
                     <p className="font-semibold text-green-600">{formatPrice(o.totalAmount)}</p>
                   </div>
                 </div>

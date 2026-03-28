@@ -22,7 +22,7 @@ export default function ProductCardCarousel({ product }: ProductCardCarouselProp
   const sellerId = product.seller?.id;
 
   return (
-    <div className="flex-shrink-0 w-44 sm:w-52 flex flex-col h-full">
+    <div className="flex h-full w-[min(42vw,11rem)] shrink-0 snap-start flex-col sm:w-44 md:w-52">
       <div className="flex flex-col flex-1 bg-white rounded-xl border border-gray-100 overflow-hidden hover:shadow-xl hover:border-amber-200 transition-all duration-200">
         <Link href={`/products/${product.id}`} className="group flex flex-col flex-1">
           <div className="aspect-square relative bg-gray-50 shrink-0">
@@ -32,7 +32,7 @@ export default function ProductCardCarousel({ product }: ProductCardCarouselProp
                 alt={product.title}
                 fill
                 className="object-cover hover:scale-[1.03] transition duration-300"
-                sizes="(max-width: 640px) 176px, 208px"
+                sizes="(max-width: 640px) 42vw, 208px"
                 unoptimized={img.startsWith('/api/')}
               />
             ) : (

@@ -31,12 +31,15 @@ export default function FlashCountdown() {
   const pad = (n: number) => n.toString().padStart(2, '0');
 
   return (
-    <span className="flex items-center gap-2">
-      <HiClock className="w-5 h-5 text-amber-300" />
-      <span className="text-sm">Time Left:</span>
-      <span className="font-bold tabular-nums">
-        {pad(timeLeft.hours)}h : {pad(timeLeft.minutes)}m : {pad(timeLeft.seconds)}s
+    <div className="flex w-full min-w-0 flex-col gap-1 min-[420px]:w-auto min-[420px]:flex-row min-[420px]:items-center min-[420px]:gap-2">
+      <span className="flex items-center gap-1.5 text-xs text-white/90 min-[420px]:text-sm">
+        <HiClock className="h-4 w-4 shrink-0 text-amber-300 sm:h-5 sm:w-5" />
+        <span className="hidden min-[360px]:inline">Ends in </span>
+        <span className="min-[360px]:hidden">Ends </span>
       </span>
-    </span>
+      <span className="font-bold tabular-nums text-sm tracking-tight text-white sm:text-base">
+        {pad(timeLeft.hours)}h {pad(timeLeft.minutes)}m {pad(timeLeft.seconds)}s
+      </span>
+    </div>
   );
 }
