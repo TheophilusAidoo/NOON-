@@ -7,8 +7,16 @@ import { io } from 'socket.io-client';
 
 const getSocketUrl = () => {
   if (typeof window === 'undefined') return '';
-  const base = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5001';
-  return base.replace(/\/api\/?$/, '');
+  const envUrl = process.env.NEXT_PUBLIC_API_URL?.trim();
+  if (envUrl) {
+    return envUrl.replace(/\/api\/?$/, '');
+  }
+  // Dev: talk to backend directly (reliable WebSocket with nodemon/Express on :5001)
+  if (process.env.NODE_ENV === 'development') {
+    return 'http://localhost:5001';
+  }
+  // Production: same origin as the Next app — rewrites in next.config.mjs forward /socket.io to the backend
+  return window.location.origin;
 };
 
 export function createChatSocket(token: string | null) {

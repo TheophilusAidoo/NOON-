@@ -1,4 +1,14 @@
 /** @type {import('next').NextConfig} */
+function getBackendBase() {
+  let base =
+    process.env.NEXT_PUBLIC_API_URL?.trim() || 'http://localhost:5001/api';
+  base = base.replace(/\/api\/?$/, '').replace(/\/+$/, '');
+  if (!base.startsWith('http')) {
+    base = 'http://localhost:5001';
+  }
+  return base;
+}
+
 const nextConfig = {
   images: {
     unoptimized: true, // Prevents 500 when external image fetch fails (network/DNS)
@@ -16,18 +26,17 @@ const nextConfig = {
       { protocol: 'https', hostname: '*.public.blob.vercel-storage.com', pathname: '/**' },
     ],
   },
-  // Proxy API requests to backend - avoids CORS and Network Error when backend runs on :5000
+  // Proxy API + Socket.IO to backend (same-origin in browser; avoids baked-in localhost in prod)
   async rewrites() {
-    let base =
-      process.env.NEXT_PUBLIC_API_URL?.trim() || 'http://localhost:5001/api';
-    base = base.replace(/\/api\/?$/, '').replace(/\/+$/, '');
-    if (!base.startsWith('http')) {
-      base = 'http://localhost:5001';
-    }
+    const base = getBackendBase();
     return [
       {
         source: '/api/:path*',
         destination: `${base}/api/:path*`,
+      },
+      {
+        source: '/socket.io/:path*',
+        destination: `${base}/socket.io/:path*`,
       },
     ];
   },
