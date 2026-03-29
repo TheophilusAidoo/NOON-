@@ -5,17 +5,26 @@
 
 import { io } from 'socket.io-client';
 
+function localBackendOrigin() {
+  return 'http://localhost:5001';
+}
+
 const getSocketUrl = () => {
   if (typeof window === 'undefined') return '';
   const envUrl = process.env.NEXT_PUBLIC_API_URL?.trim();
   if (envUrl) {
     return envUrl.replace(/\/api\/?$/, '');
   }
-  // Dev: talk to backend directly (reliable WebSocket with nodemon/Express on :5001)
-  if (process.env.NODE_ENV === 'development') {
-    return 'http://localhost:5001';
+  const host = window.location.hostname;
+  const isLoopback =
+    host === 'localhost' ||
+    host === '127.0.0.1' ||
+    host === '[::1]';
+  // next dev and next start on this machine: connect straight to Express (Next rewrites often break Socket.IO WS)
+  if (isLoopback) {
+    return localBackendOrigin();
   }
-  // Production: same origin as the Next app — rewrites in next.config.mjs forward /socket.io to the backend
+  // Deployed: same origin; next.config rewrites /socket.io to the backend
   return window.location.origin;
 };
 

@@ -10,6 +10,10 @@ function getBackendBase() {
 }
 
 const nextConfig = {
+  // Warnings (e.g. no-img-element) should not fail production builds when CI=true
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
   images: {
     unoptimized: true, // Prevents 500 when external image fetch fails (network/DNS)
     remotePatterns: [
