@@ -18,11 +18,16 @@ const nextConfig = {
   },
   // Proxy API requests to backend - avoids CORS and Network Error when backend runs on :5000
   async rewrites() {
-    const backendUrl = (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5001/api').replace(/\/api\/?$/, '');
+    let base =
+      process.env.NEXT_PUBLIC_API_URL?.trim() || 'http://localhost:5001/api';
+    base = base.replace(/\/api\/?$/, '').replace(/\/+$/, '');
+    if (!base.startsWith('http')) {
+      base = 'http://localhost:5001';
+    }
     return [
       {
         source: '/api/:path*',
-        destination: `${backendUrl}/api/:path*`,
+        destination: `${base}/api/:path*`,
       },
     ];
   },

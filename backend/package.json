@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "dev": "npm run kill-port && sleep 2 && npx nodemon src/index.js",
+    "dev": "npm run kill-port && sleep 2 && npx nodemon --signal SIGTERM src/index.js",
     "start": "node src/index.js",
     "build": "echo 'No build step for Node backend'",
     "create-admin": "npx prisma db seed",

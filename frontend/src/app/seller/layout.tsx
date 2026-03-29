@@ -55,6 +55,18 @@ export default function SellerLayout({ children }: { children: React.ReactNode }
     }
   }, [user, router]);
 
+  const mobileMenuTitle = useMemo(() => {
+    if (pathname === '/seller') return 'Dashboard';
+    const flat = NAV_GROUPS.flatMap((g) => g.links);
+    const exact = flat.find((l) => pathname === l.href);
+    if (exact) return exact.label;
+    const prefix = flat
+      .filter((l) => l.href !== '/seller')
+      .sort((a, b) => b.href.length - a.href.length)
+      .find((l) => pathname.startsWith(l.href));
+    return prefix?.label ?? 'Seller';
+  }, [pathname]);
+
   if (!user) {
     return (
       <div className="flex min-h-[40vh] flex-1 items-center justify-center p-6 text-slate-500">Loading...</div>
@@ -67,18 +79,6 @@ export default function SellerLayout({ children }: { children: React.ReactNode }
       </div>
     );
   }
-
-  const mobileMenuTitle = useMemo(() => {
-    if (pathname === '/seller') return 'Dashboard';
-    const flat = NAV_GROUPS.flatMap((g) => g.links);
-    const exact = flat.find((l) => pathname === l.href);
-    if (exact) return exact.label;
-    const prefix = flat
-      .filter((l) => l.href !== '/seller')
-      .sort((a, b) => b.href.length - a.href.length)
-      .find((l) => pathname.startsWith(l.href));
-    return prefix?.label ?? 'Seller';
-  }, [pathname]);
 
   const sidebar = (
     <>

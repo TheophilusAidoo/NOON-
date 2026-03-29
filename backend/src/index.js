@@ -14,8 +14,9 @@ process.on('unhandledRejection', (reason, p) => {
 
 import http from 'http';
 import app from './app.js';
-import { setupSocket } from './socket.js';
+import { setupSocket, closeSocketServer } from './socket.js';
 import { expireWholesaleOrders } from './jobs/expireWholesaleOrders.js';
+import { prisma } from './config/db.js';
 
 const server = http.createServer(app);
 const PORT = parseInt(process.env.PORT, 10) || 5001;
@@ -31,7 +32,28 @@ const runExpireJob = async () => {
   }
 };
 runExpireJob();
-setInterval(runExpireJob, 60 * 60 * 1000);
+const expireInterval = setInterval(runExpireJob, 60 * 60 * 1000);
+
+let shuttingDown = false;
+async function shutdown(signal) {
+  if (shuttingDown) return;
+  shuttingDown = true;
+  console.log(`\n[shutdown] ${signal} — closing server…`);
+  clearInterval(expireInterval);
+  await closeSocketServer();
+  await new Promise((resolve) => {
+    server.close(() => resolve());
+    setTimeout(resolve, 3000).unref();
+  });
+  await prisma.$disconnect().catch(() => {});
+  process.exit(0);
+}
+
+// SIGUSR2 is used by some tools on macOS — do not listen (was causing random exits).
+// Nodemon is configured with --signal SIGTERM so restarts still close the port cleanly.
+['SIGINT', 'SIGTERM'].forEach((sig) => {
+  process.on(sig, () => shutdown(sig));
+});
 
 server.listen(PORT, () => {
   console.log(`🚀 Server running on port ${PORT}`);

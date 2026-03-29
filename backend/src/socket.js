@@ -89,3 +89,16 @@ export function setupSocket(server) {
 
   return ioInstance;
 }
+
+/** Release port before nodemon restarts the process */
+export function closeSocketServer() {
+  return new Promise((resolve) => {
+    if (!ioInstance) {
+      resolve();
+      return;
+    }
+    const io = ioInstance;
+    ioInstance = null;
+    io.close(() => resolve());
+  });
+}
